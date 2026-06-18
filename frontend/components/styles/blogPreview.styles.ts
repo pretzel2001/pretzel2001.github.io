@@ -2,6 +2,8 @@ import css from 'styled-jsx/css';
 
 export const blogPreview = css`
     .blog-section {
+        /* Apply the global font variable directly to the container */
+        font-family: var(--font-sans), sans-serif;
         padding: 7rem 1.5rem;
     }
     .blog-container {
@@ -18,6 +20,7 @@ export const blogPreview = css`
         margin-bottom: 0.75rem;
     }
     .blog-heading {
+        font-family: var(--font-sans), sans-serif;
         font-size: clamp(1.5rem, 2.5vw, 2rem);
         font-weight: 700;
         color: var(--color-text-primary, #0f172a);
@@ -40,5 +43,4 @@ export const blogPreview = css`
         font-size: 0.9rem;
         margin: 0;
     }
-`
-
+`;

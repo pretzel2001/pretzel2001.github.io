@@ -2,6 +2,8 @@ import css from 'styled-jsx/css';
 
 export const contactStyles = css`
     .contact-section {
+        /* Bind modern geometric sans-serif styling token */
+        font-family: var(--font-sans), sans-serif;
         padding: 7rem 1.5rem 8rem;
         opacity: 0;
         transform: translateY(28px);
@@ -27,6 +29,7 @@ export const contactStyles = css`
         margin-bottom: 0.75rem;
     }
     .contact-heading {
+        font-family: var(--font-sans), sans-serif;
         font-size: clamp(1.75rem, 3vw, 2.5rem);
         font-weight: 700;
         color: var(--color-text-primary, #0f172a);
@@ -106,4 +109,4 @@ export const contactStyles = css`
         color: var(--color-accent, #4f8ef7);
         transform: translate(2px, -2px);
     }
-`
+`;

@@ -1,15 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Navbar from "../components/sections/Navbar";
-import "./globals.css";
+import "@/app/globals.css";
+import * as React from "react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Anannya Preeta",
-  description:
-    "Portfolio of Anannya Preeta, a full-stack software engineer based in Dhaka, Bangladesh.",
-};
+// Strong wrapper component protect children types from compiler smash!
+function LocalThemeProvider({ children, ...props }: React.ComponentProps<typeof NextThemesProvider>) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+}
 
 export default function RootLayout({
   children,
@@ -17,10 +13,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        <main>{children}</main>
+    <html lang="en" suppressHydrationWarning>
+      {/* Me put suppressHydrationWarning here too! Stop extension bug giants from breaking body */}
+      <body suppressHydrationWarning>
+        {/* Set default to dark, block system light preference sync! */}
+        <LocalThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          {children}
+        </LocalThemeProvider>
       </body>
     </html>
   );

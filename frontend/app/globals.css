@@ -1,15 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Override default Tailwind variables with our imported Google Fonts */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-heading);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -177,9 +181,9 @@
 
   html {
     @apply font-sans;
+    font-family: var(--font-sans);
     scroll-behavior: smooth;
     scroll-padding-top: 72px;
-    /* Force exactly one global document scroll instance */
     height: auto;
     min-height: 100%;
     overflow-x: hidden;
@@ -187,15 +191,13 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans; /* Ensures Plus Jakarta Sans maps everywhere */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Block body component element from breaking flow layouts */
     height: auto;
     min-height: 100%;
   }
 
-  /* Structural cleanups to strip any Next.js layout viewport traps */
   body > div, 
   main,
   div[__next] {

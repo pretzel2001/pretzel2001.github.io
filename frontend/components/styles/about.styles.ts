@@ -2,6 +2,8 @@ import css from 'styled-jsx/css';
 
 export const aboutStyles = css`
   .about-section {
+    /* Tell styled-jsx to explicitly use the Tailwind variable mapping */
+    font-family: var(--font-sans), sans-serif;
     padding: 7rem 1.5rem 3rem;
     opacity: 0;
     transform: translateY(28px);
@@ -25,6 +27,8 @@ export const aboutStyles = css`
     margin-bottom: 0.75rem;
   }
   .about-heading {
+    /* Map headings cleanly to the visual style font */
+    font-family: var(--font-sans), sans-serif;
     font-size: clamp(1.75rem, 3vw, 2.5rem);
     font-weight: 700;
     line-height: 1.15;

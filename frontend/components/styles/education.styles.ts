@@ -1,6 +1,9 @@
 import css from 'styled-jsx/css';
-export const educationStyles = css `
+
+export const educationStyles = css`
     .edu-section {
+        /* Pass styling mapping token across active component layer */
+        font-family: var(--font-sans), sans-serif;
         padding: 7rem 1.5rem;
         opacity: 0;
         transform: translateY(28px);
@@ -25,6 +28,7 @@ export const educationStyles = css `
         margin-bottom: 0.75rem;
     }
     .edu-heading {
+        font-family: var(--font-sans), sans-serif;
         font-size: clamp(1.5rem, 2.5vw, 2rem);
         font-weight: 700;
         color: var(--color-text-primary, #0f172a);
@@ -104,6 +108,7 @@ export const educationStyles = css `
         padding-left: 1rem;
     }
     .edu-degree {
+        font-family: var(--font-sans), sans-serif;
         font-size: 1rem;
         font-weight: 600;
         color: var(--color-text-primary, #0f172a);
@@ -134,5 +139,4 @@ export const educationStyles = css `
         padding: 0.2rem 0.6rem;
         letter-spacing: 0.02em;
     }
-`
-      
+`;
