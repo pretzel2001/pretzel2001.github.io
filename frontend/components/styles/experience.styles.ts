@@ -21,7 +21,7 @@ export const experienceStyles = css`
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-accent, #4f8ef7);
+    color: var(--portfolio-purple);
     margin-bottom: 0.75rem;
   }
   .work-heading {
@@ -59,7 +59,8 @@ export const experienceStyles = css`
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    border: 2px solid var(--color-accent, #4f8ef7);
+    /* Updated to use purple */
+    border: 2px solid var(--portfolio-purple);
     background: var(--color-bg, #fff);
     margin-top: 3px;
     position: relative;
@@ -90,7 +91,8 @@ export const experienceStyles = css`
   .job-company {
     display: block;
     font-size: 0.8rem;
-    color: var(--color-accent, #4f8ef7);
+    /* Updated to use purple */
+    color: var(--portfolio-purple);
     margin-bottom: 0.5rem;
   }
   .job-description {

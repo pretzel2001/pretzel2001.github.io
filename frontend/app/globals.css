@@ -99,15 +99,19 @@
   --sidebar-ring: oklch(0.714 0.014 41.2);
 
   /* Portfolio semantic tokens (light) */
-  --portfolio-accent:         #4f8ef7;
+  --portfolio-purple: #9333ea; 
+  --portfolio-accent: #4f8ef7;
   --portfolio-text-primary:   #0f172a;
   --portfolio-text-secondary: #475569;
   --portfolio-text-muted:     #94a3b8;
   --portfolio-surface:        #f8fafc;
   --portfolio-border:         #e2e8f0;
+  --portfolio-surface-purple: #f5f3ff; 
+  --portfolio-border-purple: #ddd6fe;
 
   /* Shorthand aliases used by styled-jsx components */
-  --color-accent:         var(--portfolio-accent);
+  /* Update these inside :root AND .dark blocks */
+--color-accent: var(--portfolio-purple); 
   --color-text-primary:   var(--portfolio-text-primary);
   --color-text-secondary: var(--portfolio-text-secondary);
   --color-text-muted:     var(--portfolio-text-muted);
@@ -154,15 +158,19 @@
   --sidebar-ring: oklch(0.547 0.021 43.1);
 
   /* Portfolio semantic tokens (dark) */
-  --portfolio-accent:         #6aa3f8;
+  --portfolio-purple: #c084fc; 
+  --portfolio-accent: #6aa3f8;
   --portfolio-text-primary:   #f1f5f9;
   --portfolio-text-secondary: #94a3b8;
   --portfolio-text-muted:     #64748b;
   --portfolio-surface:        #1e293b;
   --portfolio-border:         #334155;
+  --portfolio-surface-purple: #2e1065; 
+  --portfolio-border-purple: #581c87;  
 
   /* Shorthand aliases */
-  --color-accent:         var(--portfolio-accent);
+  /* Update these inside :root AND .dark blocks */
+--color-accent: var(--portfolio-purple); 
   --color-text-primary:   var(--portfolio-text-primary);
   --color-text-secondary: var(--portfolio-text-secondary);
   --color-text-muted:     var(--portfolio-text-muted);

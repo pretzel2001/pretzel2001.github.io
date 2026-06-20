@@ -23,7 +23,7 @@ export const contactStyles = css.global`
         font-weight: 600;
         letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: var(--color-accent, #4f8ef7);
+        color: var(--portfolio-purple);
         margin-bottom: 0.75rem;
     }
     .contact-heading {
@@ -60,18 +60,18 @@ export const contactStyles = css.global`
         border: 1px solid var(--color-border, #e2e8f0);
         border-radius: 10px;
         background: var(--color-surface, #f8fafc);
-        color: var(--color-accent, #4f8ef7);
+        color: var(--portfolio-purple);
         text-decoration: none;
         transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
     }
     .contact-link:hover {
-        border-color: var(--color-accent, #4f8ef7);
+        border-color: var(--portfolio-purple);
         background: var(--color-bg, #fff);
-        box-shadow: 0 4px 16px -4px rgba(79, 142, 247, 0.18);
+       box-shadow: 0 4px 16px -4px rgba(147, 51, 234, 0.18);
         transform: translateY(-2px);
     }
     .contact-link:focus-visible {
-        outline: 2px solid var(--color-accent, #4f8ef7);
-        outline-offset: 2px;
+        outline: 2px solid var(--portfolio-purple);
+    outline-offset: 2px;
     }
 `;

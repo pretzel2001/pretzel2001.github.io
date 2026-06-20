@@ -23,14 +23,14 @@ export const educationStyles = css`
         font-weight: 600;
         letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: var(--color-accent, #4f8ef7);
+        color: var(--portfolio-purple);
         margin-bottom: 0.75rem;
     }
     .edu-heading {
         font-family: var(--font-sans), sans-serif;
         font-size: clamp(1.5rem, 2.5vw, 2rem);
         font-weight: 700;
-        color: var(--color-text-primary, #0f172a);
+        color: var(--portfolio-purple);
         margin: 0 0 3rem;
     }
 
@@ -89,17 +89,18 @@ export const educationStyles = css`
         color: var(--color-text-muted, #94a3b8);
         white-space: nowrap;
     }
-    .edu-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        border: 2px solid var(--color-accent, #4f8ef7);
-        background: var(--color-bg, #fff);
-        position: absolute;
-        right: -18px;
-        top: 4px;
-        z-index: 1;
-    }
+   .edu-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    /* Updated to use purple */
+    border: 2px solid var(--portfolio-purple);
+    background: var(--color-bg, #fff);
+    position: absolute;
+    right: -18px;
+    top: 4px;
+    z-index: 1;
+  }
 
     /* ── Body ── */
     .edu-card-body {
@@ -114,10 +115,11 @@ export const educationStyles = css`
         margin: 0 0 0.25rem;
     }
     .edu-institution {
-        font-size: 0.85rem;
-        color: var(--color-accent, #4f8ef7);
-        margin: 0 0 0.85rem;
-    }
+    font-size: 0.85rem;
+    /* Updated to use purple */
+    color: var(--portfolio-purple);
+    margin: 0 0 0.85rem;
+  }
 
     /* ── Course tags ── */
     .edu-courses {
@@ -131,9 +133,9 @@ export const educationStyles = css`
     .edu-course-tag {
         font-size: 0.7rem;
         font-weight: 500;
-        color: var(--color-text-secondary, #475569);
-        background: var(--color-surface, #f1f5f9);
-        border: 1px solid var(--color-border, #e2e8f0);
+        color: var(--portfolio-purple);
+        background: var(--portfolio-surface-purple);
+        border: 1px solid var(--portfolio-border-purple);
         border-radius: 4px;
         padding: 0.2rem 0.6rem;
         letter-spacing: 0.02em;

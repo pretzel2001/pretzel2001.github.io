@@ -22,7 +22,7 @@ export const aboutStyles = css`
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-accent, #4f8ef7);
+    color: var(--portfolio-purple);
     margin-bottom: 0.75rem;
   }
   .about-heading {

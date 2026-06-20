@@ -195,7 +195,7 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
             setCurrentDir(`~/${matchedSlug}`);
             newLines.push({ text: `Mapped to ~/${matchedSlug} and opened browser instance.`, type: "output" });
           } else {
-            newLines.push({ text: `bash: ${primaryCmd}: ${secondaryTarget}: No such file or directory.`, type: "error" });
+            newLines.push({ text: `bash: ${primaryCmd}: ${secondaryTarget}: No such file or directory suicide.`, type: "error" });
           }
         }
         break;
@@ -416,37 +416,42 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
           )}
         </div>
       ) : (
-        /* ─── CLASSIC VIEW HERO HEADER WITH PROFILE PICTURE & RESUME ─── */
-        <div className="w-full max-w-3xl mx-auto px-6 md:px-0 pt-16 pb-4 mb-6 animate-[fadeIn_0.5s_ease-out]">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        /* ─── ENHANCED IMPACT CLASSIC VIEW HERO HEADER ─── */
+        <div className="w-full max-w-4xl mx-auto px-6 md:px-8 pt-24 md:pt-32 pb-8 mb-12 animate-[fadeIn_0.5s_ease-out]">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12 text-center md:text-left">
             
-            {/* Profile Avatar Image */}
-            <img 
-              src="/images/profile-pic.webp" // Changed path to target your public subfolder. Update extension to .jpg if needed!
-              alt="Anannya Preeta" 
-              className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 shadow-md flex-shrink-0" 
-            />
+            {/* Clean Profile Avatar */}
+            <div className="flex-shrink-0">
+              <img 
+                src="/images/profilepic.webp" 
+                alt="Anannya Preeta" 
+                width="160"
+                height="160"
+                fetchPriority="high"
+                className="w-36 h-36 md:w-40 md:h-40 rounded-full object-cover border-4 border-white dark:border-zinc-900 bg-zinc-100 dark:bg-zinc-900 shadow-xl" 
+              />
+            </div>
             
-            {/* Content Container */}
-            <div className="flex flex-col items-start gap-2">
-              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-none">
+            {/* Expanded Identity & Content Block */}
+            <div className="flex flex-col items-center md:items-start justify-center h-full pt-2 md:pt-4">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-zinc-900 dark:text-white leading-none mb-3">
                 Anannya Preeta
               </h1>
-              <p className="text-lg text-purple-600 dark:text-purple-400 font-medium">
+              
+              <p className="text-xl md:text-2xl text-purple-600 dark:text-purple-400 font-semibold tracking-wide mb-6">
                 Software Engineer & UI/UX Designer
               </p>
               
-              {/* Modern Sleek Resume Button */}
+              {/* Refined Direct Download Resume Action */}
               <a 
-                href="/resume.pdf" // Ensure your resume file sits directly inside frontend/public/
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="mt-1 inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold font-sans tracking-wide border border-zinc-200 dark:border-zinc-800 hover:border-purple-500 dark:hover:border-purple-400 rounded-lg text-zinc-800 dark:text-zinc-200 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 shadow-sm active:scale-95"
+                href="/Anannya_Preeta_SWE_TechnicalExperience.pdf" // Points directly to the file name format inside the public root
+                download="Anannya_Preeta_SWE_TechnicalExperience.pdf" // Triggers direct system file storage save hook
+                className="inline-flex items-center gap-2.5 px-5 py-2.5 text-xs md:text-sm font-bold font-sans tracking-wider border border-zinc-200 dark:border-zinc-800 hover:border-purple-500 dark:hover:border-purple-400 rounded-xl text-zinc-800 dark:text-zinc-200 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-purple-500/10 active:scale-95"
               >
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
-                  width="14" 
-                  height="14" 
+                  width="16" 
+                  height="16" 
                   viewBox="0 0 24 24" 
                   fill="none" 
                   stroke="currentColor" 
@@ -459,7 +464,7 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
                   <polyline points="7 10 12 15 17 10" />
                   <line x1="12" y1="15" x2="12" y2="3" />
                 </svg>
-                Resume
+                <span>Download Resume</span>
               </a>
             </div>
 

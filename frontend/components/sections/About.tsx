@@ -23,7 +23,7 @@ export default function About() {
 
         <div className="about-body">
           <p>
-            Hi, I am Anannya — a full-stack software engineer based in Dhaka,
+            Hi, I am Anannya Preeta — a full-stack software engineer based in Dhaka,
             Bangladesh. I love turning messy problems into clean, working
             software and am equally at home in a React component tree or a
             C# service layer.
