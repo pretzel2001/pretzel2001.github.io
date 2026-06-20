@@ -4,7 +4,6 @@ export const aboutStyles = css`
   .about-section {
     /* Tell styled-jsx to explicitly use the Tailwind variable mapping */
     font-family: var(--font-sans), sans-serif;
-    padding: 7rem 1.5rem 3rem;
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.65s ease, transform 0.65s ease;

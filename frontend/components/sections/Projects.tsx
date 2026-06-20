@@ -30,9 +30,6 @@ export default function Projects() {
       </div>
 
       <style jsx>{`
-        .projects-section {
-          padding: 7rem 1.5rem;
-        }
         .projects-container {
           max-width: 860px;
           margin: 0 auto;

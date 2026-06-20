@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useInView } from "../hooks/useInView";
-import {contactStyles} from "../styles/contact.styles";
+import { contactStyles } from "../styles/contact.styles";
 
 const contactLinks = [
   {
@@ -26,7 +26,6 @@ const contactLinks = [
         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
       </svg>
     ),
-    display: "anannyapreeta2022@gmail.com",
   },
   {
     label: "LinkedIn",
@@ -50,7 +49,6 @@ const contactLinks = [
         <circle cx="4" cy="4" r="2" />
       </svg>
     ),
-    display: "linkedin.com/in/anannyapreeta",
   },
   {
     label: "GitHub",
@@ -73,7 +71,6 @@ const contactLinks = [
         <path d="M9 18c-4.51 2-5-2-7-2" />
       </svg>
     ),
-    display: "github.com/pretzel2001",
   },
 ];
 
@@ -89,7 +86,7 @@ export default function Contact() {
     >
       <div className="contact-container">
         <span className="section-eyebrow">Contact</span>
-        <h2 className="contact-heading">Let talk</h2>
+        <h2 className="contact-heading">Let's talk</h2>
         <p className="contact-subtext">
           Whether it is a project, an opportunity, or just a hello — my inbox is
           open.
@@ -109,34 +106,14 @@ export default function Contact() {
                     : "noopener noreferrer"
                 }
               >
-                <span className="contact-icon">{link.icon}</span>
-                <span className="contact-link-text">
-                  <span className="contact-link-label">{link.label}</span>
-                  <span className="contact-link-display">{link.display}</span>
-                </span>
-                <svg
-                  className="contact-arrow"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M7 7h10v10" />
-                  <path d="M7 17 17 7" />
-                </svg>
+                {link.icon}
               </a>
             </li>
           ))}
         </ul>
       </div>
 
-       <style jsx>{contactStyles}</style>
+      <style jsx global>{contactStyles}</style>
     </section>
   );
 }

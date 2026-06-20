@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import About from "@/components/sections/About";
 import Experience from "@/components/sections/Experience";
@@ -14,15 +15,39 @@ const Hero = dynamic(() => import("@/components/sections/Hero"), {
 });
 
 export default function Home() {
+  const [viewMode, setViewMode] = useState<"dev" | "normal">("dev");
+
   return (
     <main className="portfolio-wrapper">
-      <Hero />
-      <About />
-      <Experience />
-      <Education />
-      <Projects />
-      <BlogPreview />
-      <Contact />
+      <Hero viewMode={viewMode} setViewMode={setViewMode} />
+      
+      {viewMode === "normal" && (
+        <div className="animate-[fadeIn_0.5s_ease-out] w-full max-w-3xl mx-auto px-6 md:px-0 flex flex-col gap-24 select-text">
+          <section id="about" className="border-t border-zinc-200/50 dark:border-zinc-800/50 pt-12">
+            <About />
+          </section>
+
+          <section id="experience" className="border-t border-zinc-200/50 dark:border-zinc-800/50 pt-12">
+            <Experience />
+          </section>
+
+          <section id="education" className="border-t border-zinc-200/50 dark:border-zinc-800/50 pt-12">
+            <Education />
+          </section>
+
+          <section id="projects" className="border-t border-zinc-200/50 dark:border-zinc-800/50 pt-12">
+            <Projects />
+          </section>
+
+          <section id="blogs" className="border-t border-zinc-200/50 dark:border-zinc-800/50 pt-12">
+            <BlogPreview />
+          </section>
+
+          <section id="contact" className="border-t border-zinc-200/50 dark:border-zinc-800/50 pt-12 pb-24">
+            <Contact />
+          </section>
+        </div>
+      )}
 
       <style jsx global>{`
         .portfolio-wrapper {

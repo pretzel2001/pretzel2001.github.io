@@ -3,7 +3,6 @@ import css from 'styled-jsx/css';
 export const experienceStyles = css`
   .work-section {
     font-family: var(--font-sans), sans-serif;
-    padding: 7rem 1.5rem;
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.65s ease, transform 0.65s ease;

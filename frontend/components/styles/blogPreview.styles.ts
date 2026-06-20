@@ -4,7 +4,6 @@ export const blogPreview = css`
     .blog-section {
         /* Apply the global font variable directly to the container */
         font-family: var(--font-sans), sans-serif;
-        padding: 7rem 1.5rem;
     }
     .blog-container {
         max-width: 860px;
