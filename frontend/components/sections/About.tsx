@@ -9,33 +9,30 @@ export default function About() {
   const isInView = useInView(ref, { threshold: 0.1 });
 
   return (
-    <section
-      id="about"
-      ref={ref}
-      className={`about-section ${isInView ? "in-view" : ""}`}
-    >
+    <section id="about" ref={ref} className={`about-section ${isInView ? "in-view" : ""}`}>
       <div className="about-container">
         <span className="section-eyebrow">About me</span>
         <h2 className="about-heading">
-          Building things people<br />
-          actually want to use.
+          Engineered for scale,<br />
+          designed for impact.
         </h2>
 
         <div className="about-body">
           <p>
-            Hi, I am Anannya Preeta — a full-stack software engineer based in Dhaka,
-            Bangladesh. I love turning messy problems into clean, working
-            software and am equally at home in a React component tree or a
-            C# service layer.
+            I am Anannya Preeta, a Full Stack Software Engineer with a focus on building 
+            enterprise-grade web applications and data-driven systems. My approach 
+            bridges the gap between complex backend architecture and intuitive user 
+            experiences.
           </p>
           <p>
-            I focus on creating structured architectures, optimizing query 
-            performance, and shaping fluid frontend layouts with precise 
-            interactive styling.
+            With professional experience in the ASP.NET Core and React ecosystem, 
+            I specialize in optimizing system performance, implementing robust 
+            RESTful APIs, and streamlining operational workflows through automation. 
+            I am passionate about writing clean, maintainable code that solves 
+            real-world business challenges.
           </p>
         </div>
       </div>
-
       <style jsx>{aboutStyles}</style>
     </section>
   );
