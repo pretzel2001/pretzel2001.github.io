@@ -60,6 +60,9 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
   const terminalBottomRef = useRef<HTMLDivElement>(null);
   const dragInfo = useRef<{ id: string; startX: number; startY: number; currentX: number; currentY: number } | null>(null);
 
+  // Check if any window is currently maximized
+ const isAnyWindowMaximized = windows.some(w => w.isMaximized && !w.isMinimized);
+
   useEffect(() => {
     terminalBottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [terminalHistory]);
@@ -220,9 +223,9 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
   };
 
   const handleMinimizeWindow = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setWindows((prev) => prev.map((w) => (w.id === id ? { ...w, isMinimized: true } : w)));
-  };
+  e.stopPropagation();
+  setWindows((prev) => prev.map((w) => (w.id === id ? { ...w, isMinimized: true, isMaximized: false } : w)));
+};
 
   const handleToggleMaximize = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -245,41 +248,43 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
     >
       
-      {/* --- TOP RIGHT CONTROLS PANEL --- */}
-      <div className="fixed top-6 right-8 z-[9999] pointer-events-none flex items-center gap-3">
-        <div className="pointer-events-auto flex items-center gap-0.5 p-1 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60 border border-zinc-300/30 dark:border-zinc-700/30 backdrop-blur-sm shadow-sm font-sans text-xs font-bold">
+      {/* --- TOP RIGHT CONTROLS PANEL (Hidden if any window is maximized) --- */}
+      {!isAnyWindowMaximized && (
+        <div className="fixed top-6 right-8 z-[9999] pointer-events-none flex items-center gap-3">
+          <div className="pointer-events-auto flex items-center gap-0.5 p-1 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60 border border-zinc-300/30 dark:border-zinc-700/30 backdrop-blur-sm shadow-sm font-sans text-xs font-bold">
+            <button
+              onClick={() => setViewMode("dev")}
+              className={`px-3 py-1.5 rounded-lg transition-all duration-300 ${
+                viewMode === "dev"
+                  ? "bg-emerald-500 text-white shadow-md"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
+              }`}
+            >
+              Dev Mode
+            </button>
+            <button
+              onClick={() => setViewMode("normal")}
+              className={`px-3 py-1.5 rounded-lg transition-all duration-300 ${
+                viewMode === "normal"
+                  ? "bg-purple-600 text-white shadow-md"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
+              }`}
+            >
+              Classic View
+            </button>
+          </div>
+
           <button
-            onClick={() => setViewMode("dev")}
-            className={`px-3 py-1.5 rounded-lg transition-all duration-300 ${
-              viewMode === "dev"
-                ? "bg-emerald-500 text-white shadow-md"
-                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
-            }`}
+            onClick={() => setTheme(isDarkMode ? "light" : "dark")}
+            className="pointer-events-auto p-2.5 rounded-lg bg-zinc-200/60 dark:bg-zinc-800/60 border border-zinc-300/30 dark:border-zinc-700/30 hover:scale-105 active:scale-95 text-zinc-700 dark:text-purple-300 transition-all duration-300 shadow-sm"
           >
-            Dev Mode
-          </button>
-          <button
-            onClick={() => setViewMode("normal")}
-            className={`px-3 py-1.5 rounded-lg transition-all duration-300 ${
-              viewMode === "normal"
-                ? "bg-purple-600 text-white shadow-md"
-                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
-            }`}
-          >
-            Classic View
+            <div className="relative w-5 h-5 flex items-center justify-center">
+              <Sun className={`w-5 h-5 absolute transition-all duration-500 ease-out transform ${isDarkMode ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"}`} />
+              <Moon className={`w-5 h-5 absolute transition-all duration-500 ease-out transform ${isDarkMode ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"}`} />
+            </div>
           </button>
         </div>
-
-        <button
-          onClick={() => setTheme(isDarkMode ? "light" : "dark")}
-          className="pointer-events-auto p-2.5 rounded-lg bg-zinc-200/60 dark:bg-zinc-800/60 border border-zinc-300/30 dark:border-zinc-700/30 hover:scale-105 active:scale-95 text-zinc-700 dark:text-purple-300 transition-all duration-300 shadow-sm"
-        >
-          <div className="relative w-5 h-5 flex items-center justify-center">
-            <Sun className={`w-5 h-5 absolute transition-all duration-500 ease-out transform ${isDarkMode ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"}`} />
-            <Moon className={`w-5 h-5 absolute transition-all duration-500 ease-out transform ${isDarkMode ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"}`} />
-          </div>
-        </button>
-      </div>
+      )}
 
       {/* ─── CONDITIONAL DESKTOP OS MODE LAYOUT ─── */}
       {viewMode === "dev" ? (
@@ -385,7 +390,6 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
                       <p className="text-xs font-mono tracking-wider text-zinc-400 dark:text-zinc-500">Resolving assets...</p>
                     </div>
                   ) : (
-                    // --- UPDATED CONTAINER FOR CONSISTENCY ---
                     <div className={`animate-[fadeIn_0.3s_ease-out] h-full w-full overflow-y-auto p-8 items-start justify-start`}>
                       <div className="max-w-4xl mx-auto w-full">
                         {win.component}
