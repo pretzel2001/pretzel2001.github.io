@@ -133,8 +133,8 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
     }
 
     const indexOffset = windows.filter(w => !w.isTerminal).length;
-    const defaultX = window.innerWidth * 0.38 + indexOffset * 35;
-    const defaultY = window.innerHeight * 0.18 + indexOffset * 25;
+    const defaultX = typeof window !== "undefined" ? window.innerWidth * 0.38 + indexOffset * 35 : 120;
+    const defaultY = typeof window !== "undefined" ? window.innerHeight * 0.18 + indexOffset * 25 : 100;
 
     const newWindow: WindowInstance = {
       id: folder.name,
@@ -195,7 +195,7 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
             setCurrentDir(`~/${matchedSlug}`);
             newLines.push({ text: `Mapped to ~/${matchedSlug} and opened browser instance.`, type: "output" });
           } else {
-            newLines.push({ text: `bash: ${primaryCmd}: ${secondaryTarget}: No such file or directory suicide.`, type: "error" });
+            newLines.push({ text: `bash: ${primaryCmd}: ${secondaryTarget}: No such file or directory.`, type: "error" });
           }
         }
         break;
@@ -246,8 +246,8 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
     >
       
       {/* --- TOP RIGHT CONTROLS PANEL --- */}
-      <div className="fixed top-6 right-8 z-[9999] flex items-center gap-3">
-        <div className="flex items-center gap-0.5 p-1 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60 border border-zinc-300/30 dark:border-zinc-700/30 backdrop-blur-sm shadow-sm font-sans text-xs font-bold">
+      <div className="fixed top-6 right-8 z-[9999] pointer-events-none flex items-center gap-3">
+        <div className="pointer-events-auto flex items-center gap-0.5 p-1 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60 border border-zinc-300/30 dark:border-zinc-700/30 backdrop-blur-sm shadow-sm font-sans text-xs font-bold">
           <button
             onClick={() => setViewMode("dev")}
             className={`px-3 py-1.5 rounded-lg transition-all duration-300 ${
@@ -272,7 +272,7 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
 
         <button
           onClick={() => setTheme(isDarkMode ? "light" : "dark")}
-          className="p-2.5 rounded-lg bg-zinc-200/60 dark:bg-zinc-800/60 border border-zinc-300/30 dark:border-zinc-700/30 hover:scale-105 active:scale-95 text-zinc-700 dark:text-purple-300 transition-all duration-300 shadow-sm"
+          className="pointer-events-auto p-2.5 rounded-lg bg-zinc-200/60 dark:bg-zinc-800/60 border border-zinc-300/30 dark:border-zinc-700/30 hover:scale-105 active:scale-95 text-zinc-700 dark:text-purple-300 transition-all duration-300 shadow-sm"
         >
           <div className="relative w-5 h-5 flex items-center justify-center">
             <Sun className={`w-5 h-5 absolute transition-all duration-500 ease-out transform ${isDarkMode ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"}`} />
@@ -370,7 +370,7 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
                   <div className="flex-1 max-w-[85%] bg-white dark:bg-[#0F0E12] border border-zinc-200/80 dark:border-zinc-800 rounded-md px-3 py-1 text-xs font-sans tracking-wide flex items-center gap-1 select-text truncate shadow-inner">
                     <span className="text-zinc-400 dark:text-zinc-600 select-none">https://</span>
                     <span className="font-semibold text-zinc-700 dark:text-zinc-200">preeta.dev/</span>
-                    <span className="text-purple-600 dark:text-purple-400 font-bold">{win.slug}</span>
+                    <span className={`font-bold ${win.name === "Work Experience" ? "text-purple-500" : "text-purple-600 dark:text-purple-400"}`}>{win.slug}</span>
                   </div>
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button onClick={(e) => handleMinimizeWindow(win.id, e)} className="p-1.5 rounded hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-500 dark:text-zinc-400"><Minus className="w-3.5 h-3.5 stroke-[2.5]" /></button>
@@ -385,7 +385,12 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
                       <p className="text-xs font-mono tracking-wider text-zinc-400 dark:text-zinc-500">Resolving assets...</p>
                     </div>
                   ) : (
-                    <div className="animate-[fadeIn_0.3s_ease-out] p-1">{win.component}</div>
+                    // --- UPDATED CONTAINER FOR CONSISTENCY ---
+                    <div className={`animate-[fadeIn_0.3s_ease-out] h-full w-full overflow-y-auto p-8 items-start justify-start`}>
+                      <div className="max-w-4xl mx-auto w-full">
+                        {win.component}
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
@@ -416,11 +421,9 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
           )}
         </div>
       ) : (
-        /* ─── ENHANCED IMPACT CLASSIC VIEW HERO HEADER ─── */
         <div className="w-full max-w-4xl mx-auto px-6 md:px-8 pt-24 md:pt-32 pb-8 mb-12 animate-[fadeIn_0.5s_ease-out]">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12 text-center md:text-left">
             
-            {/* Clean Profile Avatar */}
             <div className="flex-shrink-0">
               <img 
                 src="/images/profilepic.webp" 
@@ -432,7 +435,6 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
               />
             </div>
             
-            {/* Expanded Identity & Content Block */}
             <div className="flex flex-col items-center md:items-start justify-center h-full pt-2 md:pt-4">
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-zinc-900 dark:text-white leading-none mb-3">
                 Anannya Preeta
@@ -442,10 +444,9 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
                 Software Engineer & UI/UX Designer
               </p>
               
-              {/* Refined Direct Download Resume Action */}
               <a 
-                href="/Anannya_Preeta_SWE_TechnicalExperience.pdf" // Points directly to the file name format inside the public root
-                download="Anannya_Preeta_SWE_TechnicalExperience.pdf" // Triggers direct system file storage save hook
+                href="/Anannya_Preeta_SWE_TechnicalExperience.pdf"
+                download="Anannya_Preeta_SWE_TechnicalExperience.pdf"
                 className="inline-flex items-center gap-2.5 px-5 py-2.5 text-xs md:text-sm font-bold font-sans tracking-wider border border-zinc-200 dark:border-zinc-800 hover:border-purple-500 dark:hover:border-purple-400 rounded-xl text-zinc-800 dark:text-zinc-200 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-purple-500/10 active:scale-95"
               >
                 <svg 
@@ -467,7 +468,6 @@ export default function Hero({ viewMode, setViewMode }: HeroProps) {
                 <span>Download Resume</span>
               </a>
             </div>
-
           </div>
         </div>
       )}
