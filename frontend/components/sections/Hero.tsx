@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { useTheme } from "next-themes";
-import { Sun, Moon, X, Minus, Square, Loader2, Terminal } from "lucide-react";
+import { Sun, Moon, X, Minus, Square, Loader2, Terminal, FileText, Download } from "lucide-react";
 
 import About from "./About";
 import Experience from "./Experience";
@@ -19,6 +19,8 @@ const folderData = [
   { name: "Contact Me", slug: "contact-me", lightBg: "bg-[#3D3B63]", darkBg: "dark:bg-[#1E1D3B]", component: <Contact /> },
 ];
 
+
+
 // Animation states for each window
 type WindowAnimState = "opening" | "open" | "minimizing" | "restoring" | "maximizing" | "unmaximizing" | "closing";
 
@@ -33,6 +35,7 @@ interface WindowInstance {
   x: number;
   y: number;
   isTerminal: boolean;
+  isResume?: boolean;
   component?: React.ReactNode;
   animState: WindowAnimState;
 }
@@ -59,6 +62,8 @@ const ANIM_DURATION = {
   unmaximize: 260,
 };
 
+
+
 export default function Hero({ viewMode, setViewMode, isMobile = false }: HeroProps) {
   const { theme, setTheme } = useTheme();
   const [globalZIndex, setGlobalZIndex] = useState(10);
@@ -70,6 +75,36 @@ export default function Hero({ viewMode, setViewMode, isMobile = false }: HeroPr
     { text: "Welcome to Preeta OS Shell v1.1.6 ", type: "welcome" },
     { text: "Hello, this is Anannya Preeta. Use 'ls' to view folders, or type 'help' to review shell options.", type: "welcome" },
   ]);
+
+  // ─── Desktop greeting typewriter effect ───
+const GREETING_TEXT = "Hey, this is Anannya Preeta";
+const [greetingText, setGreetingText] = useState("");
+const [isDeletingGreeting, setIsDeletingGreeting] = useState(false);
+
+useEffect(() => {
+  const TYPE_SPEED = 75;
+  const DELETE_SPEED = 40;
+  const PAUSE_AFTER_TYPE = 2200;
+  const PAUSE_AFTER_DELETE = 500;
+
+  let timeout: ReturnType<typeof setTimeout>;
+
+  if (!isDeletingGreeting && greetingText.length < GREETING_TEXT.length) {
+    timeout = setTimeout(() => {
+      setGreetingText(GREETING_TEXT.slice(0, greetingText.length + 1));
+    }, TYPE_SPEED);
+  } else if (!isDeletingGreeting && greetingText.length === GREETING_TEXT.length) {
+    timeout = setTimeout(() => setIsDeletingGreeting(true), PAUSE_AFTER_TYPE);
+  } else if (isDeletingGreeting && greetingText.length > 0) {
+    timeout = setTimeout(() => {
+      setGreetingText(GREETING_TEXT.slice(0, greetingText.length - 1));
+    }, DELETE_SPEED);
+  } else if (isDeletingGreeting && greetingText.length === 0) {
+    timeout = setTimeout(() => setIsDeletingGreeting(false), PAUSE_AFTER_DELETE);
+  }
+
+  return () => clearTimeout(timeout);
+}, [greetingText, isDeletingGreeting]);
 
   const terminalBottomRef = useRef<HTMLDivElement>(null);
   const dragInfo = useRef<{ id: string; startX: number; startY: number; currentX: number; currentY: number } | null>(null);
@@ -137,6 +172,48 @@ export default function Hero({ viewMode, setViewMode, isMobile = false }: HeroPr
       );
     }, ANIM_DURATION.open);
   };
+
+  const handleOpenResume = () => {
+  const exists = windows.find((w) => w.id === "resume");
+  const nextZ = globalZIndex + 1;
+  setGlobalZIndex(nextZ);
+
+  if (exists) {
+    if (exists.isMinimized) {
+      animateThen("resume", "restoring", ANIM_DURATION.restore, () => ({
+        isMinimized: false,
+        zIndex: nextZ,
+      }));
+    } else {
+      setWindows((prev) =>
+        prev.map((w) => (w.id === "resume" ? { ...w, zIndex: nextZ } : w))
+      );
+    }
+    return;
+  }
+
+  const defaultX = typeof window !== "undefined" ? window.innerWidth * 0.4 : 140;
+  const defaultY = typeof window !== "undefined" ? window.innerHeight * 0.15 : 90;
+
+  const newResumeWindow: WindowInstance = {
+    id: "resume",
+    name: "Resume.pdf",
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: nextZ,
+    x: defaultX,
+    y: defaultY,
+    isTerminal: false,
+    isResume: true,
+    animState: "opening",
+  };
+  setWindows((prev) => [...prev, newResumeWindow]);
+  setTimeout(() => {
+    setWindows((prev) =>
+      prev.map((w) => (w.id === "resume" ? { ...w, animState: "open" } : w))
+    );
+  }, ANIM_DURATION.open);
+};
 
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
@@ -278,9 +355,9 @@ export default function Hero({ viewMode, setViewMode, isMobile = false }: HeroPr
       prev.map((w) => (w.id === id ? { ...w, animState: "closing" } : w))
     );
     setTimeout(() => {
-      setWindows((prev) => prev.filter((w) => w.id !== id));
-      if (id !== "terminal") setCurrentDir("~");
-    }, ANIM_DURATION.close);
+  setWindows((prev) => prev.filter((w) => w.id !== id));
+  if (id !== "terminal" && id !== "resume") setCurrentDir("~");
+}, ANIM_DURATION.close);
   };
 
   const handleMinimizeWindow = (id: string, e: React.MouseEvent) => {
@@ -444,6 +521,12 @@ export default function Hero({ viewMode, setViewMode, isMobile = false }: HeroPr
         {/* ─── DEV MODE LAYOUT ─── */}
         {viewMode === "dev" ? (
           <div className="h-full w-full relative overflow-hidden pb-24 animate-[fadeIn_0.3s_ease-out]">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+    <p className="font-mono text-2xl md:text-4xl text-zinc-300 dark:text-zinc-700 font-semibold tracking-wide">
+      {greetingText}
+      <span className="inline-block w-[3px] h-[1.4em] bg-zinc-400 dark:bg-zinc-600 ml-1 align-middle animate-pulse" />
+    </p>
+  </div>
             <div className="absolute inset-0 p-8 pt-12 flex">
               {/* Sidebar icons */}
               <div className="flex flex-col gap-6 w-36 items-center z-10 overflow-y-auto max-h-[85vh] no-scrollbar">
@@ -456,6 +539,17 @@ export default function Hero({ viewMode, setViewMode, isMobile = false }: HeroPr
                   </div>
                   <p className="text-[12px] mt-2 text-zinc-900 dark:text-zinc-100 font-bold tracking-wide leading-tight">Terminal</p>
                 </div>
+
+                <div
+  onClick={handleOpenResume}
+  className="text-center group cursor-pointer flex flex-col items-center justify-center w-full mb-2"
+>
+  <div className="w-[44px] h-[52px] bg-white dark:bg-zinc-100 rounded-sm relative shadow-md border border-zinc-300 dark:border-zinc-400 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-1">
+    <div className="absolute top-0 right-0 w-0 h-0 border-t-[10px] border-t-zinc-200 dark:border-t-zinc-300 border-l-[10px] border-l-transparent" />
+    <FileText className="w-5 h-5 text-red-500 stroke-[2.5]" />
+  </div>
+  <p className="text-[12px] mt-2 text-zinc-900 dark:text-zinc-100 font-bold tracking-wide leading-tight">Resume</p>
+</div>
 
                 {folderData.map((folder) => (
                   <div
@@ -564,17 +658,38 @@ export default function Hero({ viewMode, setViewMode, isMobile = false }: HeroPr
                     </div>
                   </div>
                   <div className="flex-1 overflow-y-auto relative bg-white dark:bg-[#0B0A0D]">
-                    {win.isLoading ? (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                        <Loader2 className="w-7 h-7 animate-spin text-purple-600 dark:text-purple-400" />
-                        <p className="text-xs font-mono tracking-wider text-zinc-400 dark:text-zinc-500">Resolving assets...</p>
-                      </div>
-                    ) : (
-                      <div className="animate-[fadeIn_0.3s_ease-out] h-full w-full overflow-y-auto p-8 items-start justify-start">
-                        <div className="max-w-4xl mx-auto w-full">{win.component}</div>
-                      </div>
-                    )}
-                  </div>
+  {win.isResume ? (
+    <div className="flex flex-col h-full">
+      <div className="flex items-center justify-between px-4 py-2 bg-zinc-50 dark:bg-[#111014] border-b border-zinc-200 dark:border-zinc-800 flex-shrink-0">
+        <span className="text-xs font-mono text-zinc-400 dark:text-zinc-500">Anannya_Preeta_SWE_Resume.pdf</span>
+        
+        <a
+          href="/Anannya_Preeta_SWE_Resume.pdf"
+          download="Anannya_Preeta_SWE_Resume.pdf"
+          className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800/50 transition-colors"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Download className="w-3 h-3" />
+          Download
+        </a>
+      </div>
+      <iframe
+        src="/Anannya_Preeta_SWE_Resume.pdf"
+        className="flex-1 w-full"
+        title="Resume"
+      />
+    </div>
+  ) : win.isLoading ? (
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+      <Loader2 className="w-7 h-7 animate-spin text-purple-600 dark:text-purple-400" />
+      <p className="text-xs font-mono tracking-wider text-zinc-400 dark:text-zinc-500">Resolving assets...</p>
+    </div>
+  ) : (
+    <div className="animate-[fadeIn_0.3s_ease-out] h-full w-full overflow-y-auto p-8 items-start justify-start">
+      <div className="max-w-4xl mx-auto w-full">{win.component}</div>
+    </div>
+  )}
+</div>
                 </div>
               );
             })}
