@@ -682,7 +682,7 @@ useEffect(() => {
   ) : win.isLoading ? (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
       <Loader2 className="w-7 h-7 animate-spin text-purple-600 dark:text-purple-400" />
-      <p className="text-xs font-mono tracking-wider text-zinc-400 dark:text-zinc-500">Resolving assets...</p>
+      <p className="text-xs font-mono tracking-wider text-zinc-400 dark:text-zinc-500">Loading Content...</p>
     </div>
   ) : (
     <div className="animate-[fadeIn_0.3s_ease-out] h-full w-full overflow-y-auto p-8 items-start justify-start">
