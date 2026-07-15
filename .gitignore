@@ -12,6 +12,9 @@ out/
 # Vercel
 .vercel/
 
+#Velite
+.velite/
+
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
