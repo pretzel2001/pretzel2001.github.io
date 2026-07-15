@@ -10,19 +10,23 @@ export default defineConfig({
     clean: true,
   },
   collections: {
-    blog: {
-      name: "Post",
-      pattern: "blog/**/*.mdx",
-      schema: s
-        .object({
-          title: s.string(),
-          description: s.string(),
-          date: s.isodate(),
-          isPublished: s.boolean().default(true),
-          slug: s.path(),
-          content: s.mdx(),
-        })
-        .transform((data) => ({ ...data, permalink: `/blog/${data.slug}` })),
-    },
+  blog: {
+    name: "Post",
+    pattern: "blog/**/*.mdx",   
+    schema: s
+  .object({
+    title: s.string(),
+    description: s.string(),
+    date: s.isodate(),
+    isPublished: s.boolean().default(true),
+    slug: s.path(),
+    content: s.mdx(),
+  })
+  .transform((data) => ({
+    ...data,
+    slug: data.slug.replace(/^blog\//, ""),
+    permalink: `/blog/${data.slug.replace(/^blog\//, "")}`,
+  })),
   },
+},
 });

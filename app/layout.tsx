@@ -1,10 +1,6 @@
 import "@/app/globals.css";
-import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { Metadata } from 'next';
-function LocalThemeProvider({ children, ...props }: React.ComponentProps<typeof NextThemesProvider>) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
-}
+import { LocalThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Preeta | Software Engineer",
