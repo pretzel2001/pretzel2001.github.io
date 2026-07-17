@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import About from "@/components/sections/About";
 import Experience from "@/components/sections/Experience";
@@ -12,10 +13,17 @@ const Hero = dynamic(() => import("@/components/sections/Hero"), {
   ssr: false,
 });
 
-const MOBILE_BREAKPOINT = 768; // matches Tailwind's `md` breakpoint
+const MOBILE_BREAKPOINT = 768;
 
-export default function Home() {
-  const [viewMode, setViewMode] = useState<"dev" | "normal">("dev");
+function HomeContent() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const paramView = searchParams.get("view");
+  const initialView = paramView === "dev" || paramView === "normal" ? paramView : "dev";
+
+  const [viewMode, setViewModeState] = useState<"dev" | "normal">(initialView);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -25,7 +33,13 @@ export default function Home() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // On mobile, always render classic mode — ignore the dev/normal toggle
+  const setViewMode = (mode: "dev" | "normal") => {
+    setViewModeState(mode);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("view", mode);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
   const effectiveViewMode = isMobile ? "normal" : viewMode;
 
   return (
@@ -66,5 +80,13 @@ export default function Home() {
         }
       `}</style>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
   );
 }
