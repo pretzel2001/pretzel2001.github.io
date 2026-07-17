@@ -187,10 +187,11 @@
     @apply border-border outline-ring/50;
   }
 
+  
   html {
     @apply font-sans;
     font-family: var(--font-sans);
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */
     scroll-padding-top: 72px;
     height: auto;
     min-height: 100%;

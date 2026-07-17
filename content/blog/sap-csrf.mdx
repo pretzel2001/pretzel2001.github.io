@@ -10,10 +10,9 @@ tags:
   - Postman
   - API
   - Backend
-cover: "/blogs/sap-csrf/cover.png"
+cover: "./cover.png"
 ---
 
-# Understanding CSRF Tokens in SAP OData: A Practical Walkthrough
 
 If you've worked with **SAP OData Services**, you've probably encountered this scenario:
 
@@ -58,32 +57,13 @@ This applies to:
 
 The process consists of two requests.
 
-```text
-          GET
-             │
-             │
-X-CSRF-Token: Fetch
-             │
-             ▼
-        SAP Gateway
-             ▲
-             │
-   200 OK
-   X-CSRF-Token
-   Set-Cookie
-             │
-             │
-             ▼
-          POST
- X-CSRF-Token
- Session Cookie
-             │
-             ▼
-        SAP Gateway
-             ▲
-             │
-         200 OK
-```
+<Mermaid chart={`
+flowchart TD
+    A["GET request<br/>X-CSRF-Token: Fetch"] --> B["SAP Gateway"]
+    B --> C["200 OK<br/>X-CSRF-Token + Set-Cookie"]
+    C --> D["POST request<br/>token + session cookie"]
+    D --> B
+`} />
 
 ---
 
@@ -174,31 +154,15 @@ Because the request contains both the CSRF token and the session cookie, SAP val
 
 You can think of the process as a short-lived security pass.
 
-```text
-Authenticate
-      │
-      ▼
-
-Fetch CSRF Token
-      │
-      ▼
-
-Receive
-• Token
-• Session Cookie
-      │
-      ▼
-
-POST / PUT / PATCH / DELETE
-      │
-      ▼
-
-Token + Session Match?
-
-   Yes        No
-   │          │
-200 OK   403 Forbidden
-```
+<Mermaid chart={`
+flowchart TD
+    A[Authenticate] --> B[Fetch CSRF token]
+    B --> C["Receive token +<br/>session cookie"]
+    C --> D["POST / PUT / PATCH / DELETE<br/>with token + cookie"]
+    D --> E{"Token + session<br/>match?"}
+    E -->|Yes| F[200 OK]
+    E -->|No| G[403 Forbidden]
+`} />
 
 ---
 

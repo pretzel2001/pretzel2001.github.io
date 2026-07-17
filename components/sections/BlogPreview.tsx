@@ -1,5 +1,6 @@
 import { blog } from "@/.velite";
 import Link from "next/link";
+import Image from "next/image";
 import { blogPreview } from "../styles/blogPreview.styles";
 
 export default function BlogPreview() {
@@ -35,11 +36,32 @@ export default function BlogPreview() {
             <p>Posts coming soon.</p>
           </div>
         ) : (
-          <div className="blog-list">
+          <div className="blog-grid">
             {posts.map((post) => (
-              <Link key={post.slug} href={post.permalink} className="blog-item">
-                <h3>{post.title}</h3>
-                <p>{post.description}</p>
+              <Link key={post.slug} href={post.permalink} className="blog-card">
+                {post.cover && (
+                  <div className="blog-card-image">
+                    <Image
+                      src={post.cover.src}
+                      alt={post.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                  </div>
+                )}
+                <div className="blog-card-body">
+                  {post.tags?.[0] && (
+                    <span className="blog-card-tag">{post.tags[0]}</span>
+                  )}
+                  <h3 className="blog-card-title">{post.title}</h3>
+                  <time className="blog-card-date">
+                    {new Date(post.date).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "2-digit",
+                      year: "numeric",
+                    })}
+                  </time>
+                </div>
               </Link>
             ))}
           </div>

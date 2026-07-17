@@ -48,7 +48,7 @@ interface TerminalLine {
 
 interface HeroProps {
   viewMode: "dev" | "normal";
-  setViewMode: React.Dispatch<React.SetStateAction<"dev" | "normal">>;
+  setViewMode: (mode: "dev" | "normal") => void;
   isMobile?: boolean;
 }
 
