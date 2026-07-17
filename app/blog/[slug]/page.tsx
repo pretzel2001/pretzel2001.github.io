@@ -14,6 +14,45 @@ export function generateStaticParams() {
   return blog.map((p) => ({ slug: p.slug }));
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = blog.find((p) => p.slug === slug);
+  if (!post) return {};
+
+  const siteUrl = "https://www.preeta.dev";
+  const imageUrl = post.cover ? `${siteUrl}${post.cover.src}` : undefined;
+
+  return {
+    title: post.title,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url: `${siteUrl}/blog/${post.slug}`,
+      type: "article",
+      images: imageUrl
+        ? [
+            {
+              url: imageUrl,
+              width: post.cover?.width,
+              height: post.cover?.height,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+  };
+}
+
 export default async function BlogPostPage({
   params,
 }: {
