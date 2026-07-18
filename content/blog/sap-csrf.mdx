@@ -1,6 +1,6 @@
 ---
 title: "Understanding CSRF Tokens in SAP OData: A Practical Walkthrough"
-description: "Learn how SAP OData uses CSRF tokens to secure state-changing requests and how to successfully perform POST operations using Postman."
+description: "Learn how SAP OData uses CSRF tokens to secure state-changing requests, why session cookies matter, and how the GET → POST workflow works in practice."
 date: "2026-07-15"
 tags:
   - SAP
@@ -13,6 +13,7 @@ tags:
 cover: "./cover.png"
 ---
 
+![Cover](./cover.png)
 
 If you've worked with **SAP OData Services**, you've probably encountered this scenario:
 
@@ -166,6 +167,23 @@ flowchart TD
 
 ---
 
+
+# Putting It All Together
+
+The complete request flow looks like this:
+
+1. Authenticate with SAP.
+2. Send a GET request with `X-CSRF-Token: Fetch`.
+3. Receive both the CSRF token and the session cookie.
+4. Send the POST request with:
+   - the CSRF token
+   - the same session cookie
+5. SAP validates both before processing the request.
+
+This two-step handshake is what prevents unauthorized state-changing requests while ensuring the request originates from the same authenticated session.
+
+---
+
 # Using .NET to Fetch a CSRF Token
 
 Fetching the token in .NET is straightforward using `HttpClient`.
@@ -242,4 +260,5 @@ Understanding this lifecycle not only helps prevent `403 Forbidden` errors but a
 
 I hope this walkthrough helps clarify how SAP Gateway validates state-changing requests and serves as a useful reference the next time you're working with SAP OData services.
 
-Happy coding! 🚀
+
+Happy coding! 
