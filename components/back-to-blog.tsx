@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 function BackToBlogInner() {
   const searchParams = useSearchParams();
-  const view = searchParams.get('view');
+  const view = searchParams.get('view') || (typeof window !== 'undefined' ? sessionStorage.getItem('viewMode') : null);
   const backHref = view === 'dev' ? '/?view=dev#blogs' : '/?view=normal#blogs';
 
   return (
