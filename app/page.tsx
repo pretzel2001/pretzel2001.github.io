@@ -33,8 +33,13 @@ function HomeContent() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  useEffect(() => {
+    sessionStorage.setItem("viewMode", initialView);
+  }, [initialView]);
+
   const setViewMode = (mode: "dev" | "normal") => {
     setViewModeState(mode);
+    sessionStorage.setItem("viewMode", mode);
     const params = new URLSearchParams(searchParams.toString());
     params.set("view", mode);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
